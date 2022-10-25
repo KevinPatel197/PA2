@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload single/multiple Image</title>
+    <style>
+        * {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 30vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="single-upload">
+            <div class="header-single">
+                <h3>Upload single File</h3>
+                <form action="/singlefile" method="post" enctype="multipart/form-data">
+                    <input type="file" name="singleFile" >
+                    <input type="submit" value="submit">
+                </form>
+            </div>
+        </div>
+
+        <div class="multiple-upload">
+            <div class="header-single">
+                <h3>Upload Multiple File</h3>
+                <form action="/multiplefiles" method="post" enctype="multipart/form-data">
+                    <input type="file" name="multipleFiles" multiple="multiple">
+                    <input type="submit" value="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Student</title>
+</head>
+
+<body>
+    <div class="student-container" id="studentContainer">
+    </div>
+    <div class="btn">
+        <button onclick="handleDelete()">Confirm Delete</button>
+    </div>
+    <div class="links">
+        <a href="./student/">Go Back</a>
+    </div>
+    <div class="links mt-2">
+        <a href="./logout.html">Log Out</a>
+    </div>
+</body>
+<script>
+    const studentContainer = document.getElementById('studentContainer')
+    const searchUrl = window.location.search
+    id = searchUrl?.split("?")[1]?.split("=")[1]
+    const url = `http://localhost:8000/student/${id}`
+    const fetchStudent = async (id) => {
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            }
+        })
+        return response.json()
+    }
+
+    async function deleteData(url = '', data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}` || ''
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
+    const handleDelete = () => {
+        deleteData(url, id).then(response => {
+            alert(response)
+            window.location.replace('./index.html')
+        })
+    }
+
+    if (id) {
+        fetchStudent(id).then(data => {
+            studentContainer.innerHTML = `
+        <p>name: ${data.name}</p>
+        <p>email: ${data.email}</p>
+        <p>age: ${data.age}</p>
+        <p>city: ${data.city}</p>
+        <p>gender: ${data.gender}</p>
+        `
+        })
+    } else {
+        alert("Please provide student id")
+    }
+</script>
+
+</html>

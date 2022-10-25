@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css" type="text/css">
+    <title>Add Student</title>
+</head>
+
+<body>
+    <div class="container flex-center">
+        <div class="header">
+            <h3>Add Student</h3>
+        </div>
+        <div class="err">
+            <% if(typeof errors!=='undefined' ){ %>
+                <p>
+                    <%= errors.validationError %>
+                </p>
+                <% } %>
+        </div>
+        <div class="form-container mt-2 ">
+            <form class="flex-center" action="/student/" method="post">
+                <div class="username mb-2">
+                    <input type="text" placeholder="enter your name" name="name" required>
+                </div>
+                <div class="password mb-2">
+                    <input type="password" name="password" placeholder="enter password" id="" required>
+                </div>
+                <div class="email mb-2">
+                    <input type="email" name="email" id="" placeholder="enter your email" required>
+                </div>
+                <div class="city mb-2">
+                    <input type="text" name="city" id="" placeholder="enter your city" required>
+                </div>
+                <div class="age mb-2">
+                    <input type="number" name="age" id="" min="10" max="80" placeholder="Age here" required>
+                </div>
+                <div class="gender mb-2">
+                    <input type="radio" name="gender" value="Male" id="" checked>Male
+                    <input type="radio" name="gender" value="Female" id="">Female
+                </div>
+                <div class="submit">
+                    <input style="padding:0.4rem" type="submit" value="Add">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="links mt-2">
+        <a href="/logout">Log Out</a>
+    </div>
+</body>
+
+</html>

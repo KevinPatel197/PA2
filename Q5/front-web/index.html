@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        .err {
+            color: rebeccapurple;
+        }
+
+        .mr-1 {
+            margin-right: 0.3rem
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="error">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>name</th>
+                        <th>email</th>
+                        <th>age</th>
+                        <th>city</th>
+                        <th>gender</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+            <div class="links mt-2">
+                <a href="./add.html">Add Student</a>
+            </div>
+            <div class="links mt-2">
+                <a href="./logout.html">Log Out</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    const tableBody = document.getElementById('tableBody')
+    const fetchStudents = async () => {
+        const url = "http://localhost:8000/student"
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            }
+        })
+        return response.json()
+    }
+    fetchStudents().then(data => {
+        data.forEach(student => {
+            tableBody.innerHTML = tableBody.innerHTML + `
+            <tr>
+                                <td>
+                                    ${student.name} 
+                                </td>
+                                <td>
+                                    ${student.email}
+                                </td>
+                                <td>
+                                    ${student.age}
+                                </td>
+                                <td>
+                                    ${student.city}
+                                </td>
+                                <td>
+                                    ${student.gender}
+                                </td>
+                                <td>
+                                    <div class="mr-1">
+                                        <a href="./update.html?id=${student._id}" class="mr-1">edit</a>
+                                        <a href="./delete.html?id=${student._id}" class="mr-1">delete</a>
+                                        <a href="./view.html?id=${student._id}" class="mr-1">view</a>
+                                    </div>
+                                </td>
+                            </tr>
+            `
+        });
+    })
+</script>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Detail</title>
+</head>
+
+<body>
+    <div class="student-container" id="studentContainer">
+    </div>
+    <div class="links">
+        <a href="./student/">Go Back</a>
+    </div>
+    <div class="links mt-2">
+        <a href="./logout.html">Log Out</a>
+    </div>
+</body>
+<script>
+    const studentContainer = document.getElementById('studentContainer')
+    const fetchStudent = async (id) => {
+        console.log('fetchStudent')
+        const url = `http://localhost:8000/student/${id}`
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            }
+        })
+        return response.json()
+    }
+    const searchUrl = window.location.search
+    id = searchUrl?.split("?")[1]?.split("=")[1]
+    if (id) {
+        fetchStudent(id).then(data => {
+            studentContainer.innerHTML = `
+        <p>name: ${data.name}</p>
+        <p>email: ${data.email}</p>
+        <p>age: ${data.age}</p>
+        <p>city: ${data.city}</p>
+        <p>gender: ${data.gender}</p>
+        `
+        })
+    } else {
+        alert("Please provide student id")
+    }
+
+</script>
+
+</html>

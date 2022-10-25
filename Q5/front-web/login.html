@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In Page</title>
+    <style>
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        * {
+            font-size: 1.2rem;
+        }
+
+        .err {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container flex-center">
+        <div class="header">
+            <h3>Log In</h3>
+        </div>
+        <div class="err">
+        </div>
+        <div class="form-container mt-2 ">
+            <div class="flex-center">
+                <div class="username mb-2">
+                    <input type="text" placeholder="enter username" name="username" id="txtusername" required>
+                </div>
+                <div class="password mb-2">
+                    <input type="password" name="password" placeholder="enter password" id="txtpassword" required>
+                </div>
+                <div class="submit">
+                    <input type="submit" value="Log In" onclick="handleLogin()">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    const usernameField = document.getElementById("txtusername")
+    const passwordField = document.getElementById("txtpassword")
+
+    const handleLogin = async () => {
+        let username = usernameField.value
+        let password = passwordField.value
+        postData('http://localhost:8000/login', { username, password })
+            .then((data) => {
+                if (data) {
+                    localStorage.setItem('authToken', data)
+                    window.location.replace('./index.html')
+                }
+            }).catch(error => {
+                console.log(error)
+            });
+    }
+
+    async function postData(url = '', data = {}) {
+        // Default options are marked with *
+        try {
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            if (response.status === 200) {
+                return response.json(); // parses JSON response into native JavaScript objects
+            } else {
+                let msg = await response.json()
+                alert(msg)
+            }
+        } catch (error) {
+            alert(error)
+        }
+
+    }
+
+</script>
+
+</html>

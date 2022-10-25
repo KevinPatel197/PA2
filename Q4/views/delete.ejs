@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Detail</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+    <% if(typeof(data)!=='undefined' ) { %>
+        <div class="student-container">
+            <form class="flex-center" action="/student/delete" method="post">
+                <input type="hidden" name="_id" value="<%= data?._id %>">
+
+                <div class="username mb-2">
+                    <input type="text" placeholder="enter your name" name="name" value="<%= data?.name %>" disabled>
+                </div>
+                <div class="password mb-2">
+                    <input type="password" name="password" placeholder="enter password" value="<%= data?.password %>"
+                        id="" disabled>
+                </div>
+                <div class="email mb-2">
+                    <input type="email" name="email" id="" placeholder="enter your email" value="<%= data?.email %>"
+                        disabled>
+                </div>
+                <div class="city mb-2">
+                    <input type="text" name="city" id="" placeholder="enter your city" value="<%= data?.city %>"
+                        disabled>
+                </div>
+                <div class="age mb-2">
+                    <input type="number" name="age" id="" min="10" max="80" placeholder="Age here"
+                        value="<%= data?.age %>" disabled>
+                </div>
+                <div class="gender mb-2">
+                    <input disabled type="radio" name="gender" value="Male" id="" <% if(data?.gender==='Male' )
+                        {%>checked<%} %>
+                        >Male
+                        <input disabled type="radio" name="gender" value="Female" id="" <% if(data?.gender==='Female'
+                            ){%>
+                        checked<% }%>>Female
+                </div>
+                <div class="submit">
+                    <input style="padding:0.4rem" type="submit" value="Confirm Delete">
+                </div>
+            </form>
+        </div>
+
+        <div class="links">
+            <a href="/student/">Go Back</a>
+        </div>
+        <div class="links mt-2">
+            <a href="/logout">Log Out</a>
+        </div>
+        <% } else{ %>
+            Student Not Available!
+            <%}%>
+</body>
+
+</html>

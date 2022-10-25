@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/style.css" type="text/css">
+    <title>Add Student</title>
+</head>
+
+<body>
+    <div class="container flex-center">
+        <div class="header">
+            <h3>Add Student</h3>
+        </div>
+        <div class="form-container mt-2 ">
+            <div class="flex-center">
+                <div class="username mb-2">
+                    <input type="text" placeholder="enter your name" id="txtname" name="name" required>
+                </div>
+                <div class="password mb-2">
+                    <input type="password" name="password" id="txtpassword" placeholder="enter password" id="" required>
+                </div>
+                <div class="email mb-2">
+                    <input type="email" name="email" id="txtemail" placeholder="enter your email" required>
+                </div>
+                <div class="city mb-2">
+                    <input type="text" name="city" id="txtcity" placeholder="enter your city" required>
+                </div>
+                <div class="age mb-2">
+                    <input type="number" name="age" id="txtage" min="10" max="80" placeholder="Age here" required>
+                </div>
+                <div class="gender mb-2">
+                    <input type="radio" name="gender" value="Male" id="txtmale" checked>Male
+                    <input type="radio" name="gender" value="Female" id="txtfemale">Female
+                </div>
+                <div class="submit">
+                    <button style="padding:0.4rem" onclick="handleAddStudent()">Add </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="links mt-2">
+        <a href="./logout.html">Log Out</a>
+    </div>
+</body>
+
+<script>
+    const username = document.getElementById("txtname")
+    const password = document.getElementById("txtpassword")
+    const age = document.getElementById("txtage")
+    const gender = document.getElementsByName("gender")[0]
+    const male = document.getElementById("txtmale")
+    const female = document.getElementById("txtfemale")
+    const city = document.getElementById("txtcity")
+    const email = document.getElementById("txtemail")
+
+    const url = `http://localhost:8000/student`
+
+    async function postData(url = '', data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
+    const handleAddStudent = () => {
+        const payload = {
+            name: username.value,
+            email: email.value,
+            password: password.value,
+            age: age.value,
+            gender: male.checked ? 'Male' : 'Female',
+            city: city.value
+        }
+        postData(`${url}`, payload).then(response => {
+            alert(response)
+            window.location.replace('./index.html')
+        })
+    }
+</script>
+
+</html>
